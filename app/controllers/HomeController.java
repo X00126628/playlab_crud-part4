@@ -36,11 +36,22 @@ public class HomeController extends Controller {
         return ok(about.render());
     }
 
-    public Result products() {
+    public Result products(Long cat) {
 
         // Get list of all categories in ascending order
-        List<Product> productsList = Product.findAll();
-        return ok(products.render(productsList));
+        List<Category> categoriesList = Category.findAll();
+        List<Product> productsList = new ArrayList<Product>();
+
+        if(cat == 0 ){
+
+            productsList = Product.findAll();
+        }
+        else {
+
+            productsList = Category.find.ref(cat).getProducts();
+        }
+
+        return ok(products.render(productsList, categoriesList));
     }
 
     // Render and return  the add new product page
